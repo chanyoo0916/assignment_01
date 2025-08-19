@@ -16,7 +16,7 @@ int main()
     while (true)
     {
         player.showMenu();
-        cout << "선택: ";
+        cout << "\n" << "선택:";
         cin >> choise;
 
         if (cin.fail())
