@@ -16,7 +16,7 @@ int main()
     while (true)
     {
         player.showMenu();
-        cout << "\n" << "선택:";
+        cout << "\n" << "번호를 선택해주세요 : ";
         cin >> choise;
 
         if (cin.fail())
