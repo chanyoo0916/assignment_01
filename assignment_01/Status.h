@@ -16,7 +16,7 @@ public:
 	void inputStatus();
 	void setPotion(int count, int* p_HPPotion, int* p_MPPotion);
 	void showMenu() const;
-	void handleChoice(int choice);
+	void handleChoise(int choice);
 };
 
 

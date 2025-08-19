@@ -10,15 +10,28 @@ int main()
 
 	CharacterStatus player;
 	player.inputStatus();
-	player.setPotion(5,&hpPotion, &mpPotion);
+    player.setPotion(5, &hpPotion, &mpPotion);
 	int choise;
 	
-	do {
-		player.showMenu();
-		cin >> choise;
-		player.handleChoice(choise);
-	} while (choise != 7);
-	
+    while (true)
+    {
+        player.showMenu();
+        cout << "선택: ";
+        cin >> choise;
+
+        if (cin.fail())
+        {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "잘못된 입력입니다. 숫자를 입력해주세요.\n";
+            continue;
+        }
+        player.handleChoise(choise);
+        if (choise == 7)
+            break;
+    }
+
+
 	return 0;
 
  

@@ -8,34 +8,50 @@ CharacterStatus::CharacterStatus() : maxHP(0), maxMP(0), healAmount(20), hpPotio
 
 void CharacterStatus ::inputStatus()
 {
-	do 
+	// HP와 MP 입력
+	while (true) 
 	{
 		cout << "HP와 MP를 입력해주세요 : ";
 		cin >> status[0] >> status[1];
-		
-		this->maxHP = status[0];
-		this->maxMP = status[1];
-		
+
+		if (cin.fail())
+		{
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+			cout << "잘못된 입력입니다. 숫자를 입력해주세요.\n";
+			continue;
+		}
+
 		if (status[0] < 50 || status[1] < 50)
 		{
-			cout << "HP나 MP의 값이 너무작습니다. 다시 입력해주세요\n";
+			cout << "HP나 MP의 값이 너무 작습니다.다시 입력해주세요." << "\n";
+			continue;
 		}
-	} while (status[0] < 50 || status[1] < 50);
+		break;
+	}
 
-	do 
+	// 공격력과 방어력 입력
+	while (true) 
 	{
-		cout << "공격력을 입력해주세요 : ";
-		cin >> status[2];
+		cout << "공격력과 방어력을 입력해주세요 : ";
+		cin >> status[2] >> status[3];
 
-		cout << "방어력를 입력해주세요 : ";
-		cin >> status[3];
-
-		if (status[2] <= 0 || status[3] <= 0)
+		if (cin.fail())
 		{
-			cout << "방어력과 공격력은 모두 0이상 이어야 합니다. 다시입력해주세요.\n";
+			cin.clear();
+			cin.ignore(numeric_limits<streamsize>::max(), '\n');
+			cout << "잘못된 입력입니다. 숫자를 입력해주세요.\n";
+			continue;
 		}
-	} while (status[2] <= 0 || status[3] <= 0);
 
+		if (status[2] <= 0 || status[3] <= 0) 
+		{
+			cout << "공격력과 방어력은 0이상 이어야 합니다.\n";
+			continue;
+		}
+		break;
+	}
 
 }
 
@@ -65,24 +81,18 @@ void CharacterStatus :: showMenu() const
 	cout << "4. MP 강화\n";
 	cout << "5. 공격 스킬 사용\n";
 	cout << "6. 필살기 사용\n";
+	cout << "7.나가기";
 	cout << "\n";
 }
 
-void CharacterStatus :: handleChoice(int choise)
+void CharacterStatus :: handleChoise(int choise)
 {
 	switch (choise)
 	{
 	case 1:  //1. HP 회복
-			
-		/*if (status[0] >= maxHP)
-		{
-			cout << "이미 HP가 최대치 입니다.\n";
-		}*/
         if (hpPotion > 0)
 		{
 			status[0] += healAmount;
-			/*if (status[0] > maxHP)
-				//status[0] = maxHP; // HP가 최대일시 회복 안하는 로직*/ 
 			hpPotion--;
 			cout << "HP가 20 회복 되었습니다 포션이 1개 차감됩니다." << " 현재 HP : " << status[0] << " 남은 포션 수 : " << hpPotion << "\n";
 		}
@@ -93,18 +103,9 @@ void CharacterStatus :: handleChoice(int choise)
 			break;
 
 	case 2: // 2. MP 회복
-			
-		/*if (status[1] >= maxMP)
-		{
-			cout << "이미 MP가 최대치 입니다.\n";
-		}*/
 		if(mpPotion > 0)
 		{
 			status[1] += healAmount;
-			/*if (status[1] > maxMP)
-			{ 
-			status[1] = maxMP; // MP가 최대일시 회복 안하는 로직 
-			}*/
 			mpPotion--;
 			cout << "MP가 20 회복 되었습니다 포션이 1개 차감됩니다." << " 현재 MP : " << status[1] << " 남은 포션 수 : " << mpPotion << 
 				
@@ -117,17 +118,16 @@ void CharacterStatus :: handleChoice(int choise)
 			break;
 
 	case 3: //3. HP 강화
-			this->maxHP *= 2;
-			cout << "HP가 2배로 증가 되었습니다 강화 후 HP : " << this->maxHP << "\n";
+			status[0] *= 2;
+			cout << "HP가 2배로 증가 되었습니다 강화 후 HP : " << status[0] << "\n";
 			break;
 
 	case 4: //4. MP강화
-			this->maxMP *= 2;
-			cout << "MP가 2배로 증가 되었습니다 강화 후 MP : " << this->maxMP << "\n";
+			status[1] *= 2;
+			cout << "MP가 2배로 증가 되었습니다 강화 후 MP : " << status[1] << "\n";
 			break;
 
 	case 5: //5. 공격스킬사용
-		
 			if (status[1] >= 50) 
 			{
 				status[1] -= 50;
@@ -140,7 +140,6 @@ void CharacterStatus :: handleChoice(int choise)
 			break;
 
 	case 6: // 6. 필살기 사용
-			
 			if (status[1] > 0) 
 			{
 				status[1]/= 2;
